@@ -1,0 +1,13 @@
+Package: shxcalculator-dbgsym
+Package-Type: ddeb
+Source: shxcalculator
+Version: 1.0-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: GHMaksym <ghmaksym@gmail.com>
+Installed-Size: 28
+Depends: shxcalculator (= 1.0-1)
+Section: debug
+Priority: optional
+Description: debug symbols for shxcalculator
+Build-Ids: 0b26b321ebbc7c514cf03d0d210cbb96cc2cb918

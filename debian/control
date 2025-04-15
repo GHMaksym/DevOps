@@ -1,0 +1,13 @@
+Source: shxcalculator
+Section: math
+Priority: optional
+Maintainer: GHMaksym <ghmaksym@gmail.com>
+Build-Depends: debhelper (>= 9), g++, automake, autoconf
+Standards-Version: 3.9.6
+Homepage: https://github.com/GHMaksym/DevOps
+
+Package: shxcalculator
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Simple hyperbolic sine calculator using Taylor series
+ This program calculates sh(x) via the Taylor expansion.
