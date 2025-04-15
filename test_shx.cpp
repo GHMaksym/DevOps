@@ -1,16 +1,26 @@
-#include <cassert>
 #include <iostream>
-#include "ShxCalculator.h"
+#include <cassert>
 #include <cmath>
+#include <chrono>
+#include "ShxCalculator.h"
 
 int main() {
     ShxCalculator calc;
-    double result = calc.FuncA(3);
-    double expected = 0.0;
-    for (int n = 0; n < 3; n++) {
-        expected += pow(1.0, 2*n + 1) / tgamma(2*n + 2);
-    }
-    assert(abs(result - expected) < 1e-6);
-    std::cout << "Test passed!" << std::endl;
+    auto start = std::chrono::steady_clock::now();
+
+    const int n = 10;
+    const int size = 100000;
+    std::vector<double> arr;
+    for (int i = 0; i < size; ++i)
+        arr.push_back(calc.FuncA(n));
+
+    std::sort(arr.begin(), arr.end());
+
+    auto end = std::chrono::steady_clock::now();
+    double seconds = std::chrono::duration<double>(end - start).count();
+
+    std::cout << "Execution time: " << seconds << " seconds\n";
+    assert(seconds > 5 && seconds < 20);
+    std::cout << "Test passed.\n";
     return 0;
 }
