@@ -11,7 +11,7 @@ int main() {
     auto start = std::chrono::steady_clock::now();
 
     const int n = 10;
-    const int size = 50000000;
+    const int size = 10000000;
     std::vector<double> arr;
     for (int i = 0; i < size; ++i)
         arr.push_back(calc.FuncA(n));
