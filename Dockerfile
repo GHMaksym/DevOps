@@ -6,7 +6,9 @@ RUN apk add --no-cache g++ make curl
 WORKDIR /app
 RUN curl -L -o source.zip https://github.com/GHMaksym/DevOps/archive/refs/heads/branchHTTPserver.zip && \
     unzip source.zip && \
+    ls -R && \
     cd DevOps-branchHTTPserver && \
+    ls -R && \
     make
 
 # Stage 2: Minimal runtime image
