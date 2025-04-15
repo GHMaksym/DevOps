@@ -3,6 +3,9 @@
 
 int main() {
     ShxCalculator calc;
-    std::cout << "FuncA result: " << calc.FuncA(0) << std::endl;
+    int n;
+    std::cout << "Enter n: ";
+    std::cin >> n;
+    std::cout << "Result for FuncA for " << n << " elements: " << calc.FuncA(n) << std::endl;
     return 0;
 }
