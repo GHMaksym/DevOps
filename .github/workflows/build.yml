@@ -6,11 +6,13 @@ on:
       - branchMake
       - branchAutomake
       - branchAutoPackage
+      - branchAutoTest
   pull_request:
     branches:
       - branchMake
       - branchAutomake
       - branchAutoPackage
+      - branchAutoTest
 
 jobs:
   build:
@@ -18,11 +20,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Dependencies
+    # Step: Install dependencies conditionally per branch
+    - name: Install Dependencies for branchMake
+      if: github.ref == 'refs/heads/branchMake'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++
+
+    - name: Install Dependencies for branchAutomake
+      if: github.ref == 'refs/heads/branchAutomake'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ automake autoconf
+
+    - name: Install Dependencies for branchAutoPackage
+      if: github.ref == 'refs/heads/branchAutoPackage'
       run: |
         sudo apt-get update
         sudo apt-get install -y g++ automake autoconf devscripts debhelper build-essential
 
+    - name: Install Dependencies for branchAutoTest
+      if: github.ref == 'refs/heads/branchAutoTest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ automake autoconf libtool
+
+    # Step: Execute build logic per branch
     - name: Build with Makefile
       if: github.ref == 'refs/heads/branchMake'
       run: make
@@ -41,3 +64,11 @@ jobs:
         ./configure
         dpkg-buildpackage -us -uc
         ls -lh ../*.deb
+
+    - name: Run tests
+      if: github.ref == 'refs/heads/branchAutoTest'
+      run: |
+        autoreconf --install
+        ./configure
+        make
+        make check
