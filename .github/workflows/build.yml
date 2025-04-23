@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - branchMake
+      - branchAutomake
   pull_request:
     branches:
       - branchMake
+      - branchAutomake
 
 jobs:
   build:
@@ -17,7 +19,15 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y g++
+        sudo apt-get install -y g++ automake autoconf
 
     - name: Build with Makefile
+      if: github.ref == 'refs/heads/branchMake'
       run: make
+
+    - name: Build tarball
+      if: github.ref == 'refs/heads/branchAutomake'
+      run: |
+        autoreconf --install
+        ./configure
+        make dist
