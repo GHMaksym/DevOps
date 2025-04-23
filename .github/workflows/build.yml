@@ -5,10 +5,12 @@ on:
     branches:
       - branchMake
       - branchAutomake
+      - branchAutoPackage
   pull_request:
     branches:
       - branchMake
       - branchAutomake
+      - branchAutoPackage
 
 jobs:
   build:
@@ -19,7 +21,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y g++ automake autoconf
+        sudo apt-get install -y g++ automake autoconf devscripts debhelper
 
     - name: Build with Makefile
       if: github.ref == 'refs/heads/branchMake'
@@ -31,3 +33,11 @@ jobs:
         autoreconf --install
         ./configure
         make dist
+
+    - name: Build Debian package
+      if: github.ref == 'refs/heads/branchAutoPackage'
+      run: |
+        autoreconf --install
+        ./configure
+        dpkg-buildpackage -us -uc
+        ls -lh ../*.deb
